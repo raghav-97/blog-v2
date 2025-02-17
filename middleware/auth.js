@@ -3,7 +3,7 @@ const { UserModel } = require("../db/schema");
 const { JWT_USER_SECRET } = require("../config");
 
 async function auth(req, res, next) {
-  const token = req.headers.authorization;
+  const token = req.headers.token;
   if (!token) {
     return res.status(401).json({
       message: "no token provided",

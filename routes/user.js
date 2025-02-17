@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken");
 const { UserModel } = require("../db/schema");
 const { PostModel } = require("../db/schema");
 const { JWT_USER_SECRET } = require("../config");
+const { auth } = require("../middleware/auth");
 
 const userRouter = Router();
 
@@ -108,13 +109,14 @@ userRouter.post("/signin", async (req, res) => {
   }
 });
 
-userRouter.post("/create-blog", async (req, res) => {
+userRouter.post("/create-blog", auth, async (req, res) => {
   const { title, content } = req.body;
-
+  const user = req.user;
   try {
     const post = await PostModel.create({
       title,
       content,
+      author: user._id,
     });
     console.log(post);
     res.json({
@@ -129,9 +131,11 @@ userRouter.post("/create-blog", async (req, res) => {
   }
 });
 
-userRouter.get("/blog", (req, res) => {
+userRouter.get("/blog", async (req, res) => {
+  const blogs = await PostModel.find({});
   res.json({
     message: "user blogs and able to edit it",
+    blogs,
   });
 });
 
