@@ -1,6 +1,8 @@
 const { Router } = require("express");
-const bcrypt = require("bcrypt");
 const { z } = require("zod");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+
 const { UserModel } = require("../db/schema");
 const { PostModel } = require("../db/schema");
 const { JWT_USER_SECRET } = require("../config");
@@ -80,22 +82,25 @@ userRouter.post("/signin", async (req, res) => {
     const user = await UserModel.findOne({
       email,
     });
+    console.log(user);
     if (!user) {
       return res.status(401).json({
-        message: "invalid email or password",
+        message: `No user with ${email} found`,
       });
     }
-    const isPasswordCorrect = await bcrypt.compare(password, user.password);
-    if (!isPasswordCorrect) {
-      return res.status(401).json({
-        message: "invalid email or password",
+    const userFound = await bcrypt.compare(password, user.password);
+
+    if (userFound) {
+      const token = jwt.sign({ id: user._id }, JWT_USER_SECRET);
+      res.json({
+        message: "User signed in",
+        token,
+      });
+    } else {
+      res.json({
+        message: "Invalid creds",
       });
     }
-    const token = jwt.sign({ id: user._id }, JWT_USER_SECRET);
-    res.json({
-      message: "User signed in",
-      token,
-    });
   } catch (error) {
     res.status(401).json({
       message: "invalid email or password",
