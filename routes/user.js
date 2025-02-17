@@ -131,6 +131,51 @@ userRouter.post("/create-blog", auth, async (req, res) => {
   }
 });
 
+userRouter.put("/edit-blog", auth, async (req, res) => {
+  const { title, content, postId } = req.body;
+  console.log(req.body);
+  const user = req.user;
+  console.log(user);
+
+  try {
+    const editedPost = await PostModel.updateOne(
+      {
+        _id: postId,
+        author: user._id,
+      },
+      {
+        title,
+        content,
+      }
+    );
+    res.json({
+      message: "Successfully edited blog",
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: "error editing blog",
+    });
+  }
+});
+
+userRouter.delete("/delete-blog", auth, async (req, res) => {
+  const { postId } = req.body;
+  const user = req.user;
+  try {
+    const deletedPost = await PostModel.deleteOne({
+      _id: postId,
+      author: user._id,
+    });
+    res.json({
+      message: "Successfully deleted blog",
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: "error deleting blog",
+    });
+  }
+});
+
 userRouter.get("/blog", async (req, res) => {
   const blogs = await PostModel.find({});
   res.json({
