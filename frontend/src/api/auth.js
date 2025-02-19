@@ -2,6 +2,8 @@ import axios from "axios";
 
 const API_URL = "http://localhost:3000";
 
+
+
 export const SignUpRequest = async (user) => {
   try {
     const response = await axios.post(`${API_URL}/user/signup`, user);
@@ -13,9 +15,10 @@ export const SignUpRequest = async (user) => {
 };
 
 export const SignInRequest = async (user) => {
-  console.log("from auth", user);
   try {
-    const response = await axios.post(`${API_URL}/user/signin`, user);
+    const response = await axios.post(`${API_URL}/user/signin`, user, {
+      withCredentials: true,
+    });
     console.log(response.data);
     return response.data;
   } catch (error) {

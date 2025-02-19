@@ -44,17 +44,20 @@ const SignUpPage = () => {
   };
 
   return (
-    <div>
+    <div className="p-4 bg-gray-100 max-h-screen m-6">
+      <div className="flex justify-center items-center">
+        <h1 className="text-3xl font-bold mb-4 ">Sign Up</h1>
+      </div>
       <Form
         fields={fields}
-        onChange={handleChange}
         onSubmit={handleSubmit}
+        onChange={handleChange}
         buttonText="Sign Up"
       />
 
-      <div className="text-center">
-        <p className="text-sm text-gray-700">
-          Already have an account? <a href="/login">Login</a>
+      <div className="text-center pt-2">
+        <p className="text-sm text-gray-500 mb-4">
+          Already have an account? Signin
         </p>
       </div>
     </div>

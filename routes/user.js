@@ -93,6 +93,13 @@ userRouter.post("/signin", async (req, res) => {
 
     if (userFound) {
       const token = jwt.sign({ id: user._id }, JWT_USER_SECRET);
+
+      res.cookie("token", token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "strict",
+        maxAge: 60 * 60 * 24 * 1000,
+      });
       res.json({
         message: "User signed in",
         token,
@@ -183,6 +190,20 @@ userRouter.get("/blog", async (req, res) => {
     blogs,
   });
 });
+
+userRouter.get('/me', auth, async(req, res) => {
+  try {
+    const user = await UserModel.findById(req.user.id)
+    res.json({
+      message: "User Found"
+    })
+  } catch(error) {
+    res.json({
+      message: "Error Finding user",
+      error
+    })
+  }
+})
 
 module.exports = {
   userRouter,
