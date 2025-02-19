@@ -27,7 +27,7 @@ userRouter.post("/signup", async (req, res) => {
       )
       .regex(/^\S*$/, "Password must not contain spaces"),
     first_name: z.string().trim(),
-    last_name: z.string().trim(),
+    last_name: z.string().trim().optional(),
     username: z.string().trim().min(6).max(20),
   });
 
