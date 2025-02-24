@@ -1,5 +1,5 @@
 import Navbar from "./components/navbar";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import Home from "./pages/home";
 import "./App.css";
 import CreatePost from "./pages/create-post";
@@ -11,7 +11,7 @@ function App() {
   return (
     <>
       <AuthProvider>
-        <Router>
+        <BrowserRouter>
           <div className="px-4 py-16 mx-auto max-w-screen-lg">
             <Navbar />
             <Routes>
@@ -21,7 +21,7 @@ function App() {
               <Route path="/signin" element={<SignInPage />} />
             </Routes>
           </div>
-        </Router>
+        </BrowserRouter>
       </AuthProvider>
     </>
   );

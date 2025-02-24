@@ -1,5 +1,6 @@
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,22 +23,25 @@ const Sidebar = () => {
           <h2 className="text-2xl font-bold mb-4 flex items-center">BlogHub</h2>
           <ul className="space-y-2">
             <li>
-              <a href="/" className="block p-2 hover:bg-gray-700 rounded">
+              <Link href="/" className="block p-2 hover:bg-gray-700 rounded">
                 Home
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/create" className="block p-2 hover:bg-gray-700 rounded">
+              <Link
+                href="/create-post"
+                className="block p-2 hover:bg-gray-700 rounded"
+              >
                 Create Post
-              </a>
+              </Link>
             </li>
           </ul>
           <div className="flex flex-col gap-y-4 mt-6">
             <button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-              Log In
+              <Link to="/sign-in">Sign In</Link>
             </button>
             <button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-              Sign Up
+              <Link to="/sign-up">Sign Up</Link>
             </button>
           </div>
         </nav>
